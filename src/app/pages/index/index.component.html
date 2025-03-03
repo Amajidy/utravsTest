@@ -2,7 +2,7 @@
   @if (popular.data; as movies) {
     <nz-carousel nzEffect="scrollx" nzAutoPlay>
       @for (movie of movies.results; track $index) {
-        <a class="flex flex-col relative"  routerLink="movie/{{movie.id}}" nz-carousel-content>
+        <a class="flex flex-col relative" routerLink="movie/{{movie.id}}" nz-carousel-content>
           <div class="absolute">
             <img src="{{(environment.mediaUrl + movie.backdrop_path)}}" class="opacity-50" alt="popular">
           </div>
