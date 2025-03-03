@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   private _userFacade = inject(UserFacade);
   user$ = this._userFacade.userConfig$
   ngOnInit() {
-    this._userFacade.getUser()
+    // this._userFacade.getUser()
   }
 
   protected readonly environment = environment;

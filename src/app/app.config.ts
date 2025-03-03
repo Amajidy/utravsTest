@@ -1,4 +1,4 @@
-import {ApplicationConfig, provideAppInitializer} from '@angular/core';
+import {ApplicationConfig, inject, provideAppInitializer} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -6,17 +6,30 @@ import {HttpHandlerFn, HttpRequest, provideHttpClient, withFetch, withIntercepto
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {environment} from '../environments/environment';
 import {UserFacade} from './api/facade/user.facade';
+import {firstValueFrom} from 'rxjs';
 
+
+export  const appInitializer = provideAppInitializer(() => {
+  const userFacade = inject(UserFacade);
+  const res = firstValueFrom(userFacade.userConfig$)
+  res.then((userConfig) => {
+    if (!userConfig.data) {
+      userFacade.getUser()
+    }
+    return userConfig;
+  })
+
+});
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideHttpClient(
     withFetch(),
     withInterceptors([authInterceptor])
   ),
+    appInitializer,
     provideAnimationsAsync(),
   ]
 };
-
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
   // Inject the current `AuthService` and use it to get an authentication token:
