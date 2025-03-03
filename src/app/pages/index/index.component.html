@@ -38,24 +38,23 @@
       @if (searchedMovies.data; as movies){
         <div class="flex flex-col gap-8 mt-8">
           @for (movie of movies.results; track movie.id){
-            <div class="flex gap-8">
-              <img [src]="movie.poster_path" class="w-32" [alt]="movie.title">
+            <a routerLink="movie/{{movie.id}}" class="flex gap-8">
+              <img [src]="movie.poster_path" class="w-32" [alt]="movie.title" />
               <div class="flex flex-col my-2 gap-2">
                 <div class="flex items-center gap-2">
-                  <span>Name: </span>
-                  <span>{{movie.title}}</span>
+                  <span class="text-black">Name: </span>
+                  <span class="text-black">{{movie.title}}</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <app-imdb></app-imdb>
-                  <span>{{movie.vote_average}}</span>
+                  <span class="text-black">{{movie.vote_average}}</span>
                 </div>
                 <div class="flex items-start gap-2">
-                  <span>Summary: </span>
-                  <span>{{movie.overview}}</span>
+                  <span class="text-black">Summary: </span>
+                  <span class="text-black">{{movie.overview}}</span>
                 </div>
-
               </div>
-            </div>
+            </a>
           }
         </div>
     }
