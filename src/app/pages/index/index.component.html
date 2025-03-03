@@ -16,7 +16,21 @@
         </a>
       }
     </nz-carousel>
+
   }
+    <div class="flex items-center gap-8 mt-8">
+      <input nz-input placeholder="Title" nzSize="large" />
+      @if (genres$ | async; as genres){
+        <nz-select nzShowSearch nzAllowClear [nzLoading]="genres.isLoading" nzPlaceHolder="Select a Genre">
+          @for (genre of genres.data; track $index){
+            <nz-option [nzLabel]="genre.name" [nzValue]="genre.id"></nz-option>
+
+          }
+        </nz-select>
+
+      }
+      <button nz-button nzType="primary">Search</button>
+    </div>
 
 
 }
