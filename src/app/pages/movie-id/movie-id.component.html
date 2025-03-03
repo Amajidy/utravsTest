@@ -5,7 +5,7 @@
     @if (movieId.data; as movie){
       <div class="flex flex-col justify-start items-start relative">
         <div class="flex absolute">
-          <img ngSrc="{{environment.mediaUrl}}{{movie.backdrop_path}}" width="1200" height="580" class="opacity-20" alt="movie"/>
+          <img ngSrc="{{movie.backdrop_path}}" width="1200" height="580" class="opacity-20" alt="movie"/>
           <div class="absolute w-full h-full">
             <div class="absolute w-16 left-0 h-full bg-linear-to-r from-white to-transparent"></div>
             <div class="absolute w-16 right-0 h-full bg-linear-to-l from-white to-transparent"></div>
@@ -14,7 +14,7 @@
         </div>
         <div class="flex-1 z-10 grid grid-cols-5 p-4">
           <div class="col-span-2">
-            <img src="{{environment.mediaUrl}}{{movie.poster_path}}" class="w-86" alt="{{movie.title}}"/>
+            <img src="{{movie.poster_path}}" class="w-86" alt="{{movie.title}}"/>
           </div>
           <div class="col-span-3 flex flex-col gap-8">
             <div class="flex items-center justify-between">

@@ -44,5 +44,6 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "nx": "20.4.6",
     "typescript": "~5.7.2"
-  }
+  },
+  "nx": {}
 }

@@ -4,7 +4,7 @@
       @for (movie of movies.results; track $index) {
         <a class="flex flex-col relative" routerLink="movie/{{movie.id}}" nz-carousel-content>
           <div class="absolute">
-            <img src="{{(environment.mediaUrl + movie.backdrop_path)}}" class="opacity-50" alt="popular">
+            <img src="{{movie.backdrop_path}}" class="opacity-50" alt="popular">
           </div>
           <div class="flex flex-col gap-8 items-start absolute justify-center w-1/2 h-full to-transparent p-4">
             <h1 class="text-6xl !text-white text-start">{{movie.title}}</h1>
@@ -17,4 +17,6 @@
       }
     </nz-carousel>
   }
+
+
 }

@@ -6,7 +6,7 @@
       <div class="flex flex-col gap-8">
         @for (list of lists.results; track list.id){
           <div class="flex gap-8">
-            <img [src]="environment.mediaUrl + list.poster_path" class="w-32" [alt]="list.title">
+            <img [src]="list.poster_path" class="w-32" [alt]="list.title">
             <div class="flex flex-col my-2 gap-2">
               <div class="flex items-center gap-2">
                 <span>Name: </span>
