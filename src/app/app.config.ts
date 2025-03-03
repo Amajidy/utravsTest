@@ -9,16 +9,9 @@ import {UserFacade} from './api/facade/user.facade';
 import {firstValueFrom} from 'rxjs';
 
 
-export  const appInitializer = provideAppInitializer(() => {
+export const appInitializer = provideAppInitializer(() => {
   const userFacade = inject(UserFacade);
-  const res = firstValueFrom(userFacade.userConfig$)
-  res.then((userConfig) => {
-    if (!userConfig.data) {
-      userFacade.getUser()
-    }
-    return userConfig;
-  })
-
+  userFacade.getUser()
 });
 
 export const appConfig: ApplicationConfig = {
