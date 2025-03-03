@@ -18,19 +18,47 @@
     </nz-carousel>
 
   }
-    <div class="flex items-center gap-8 mt-8">
-      <input nz-input placeholder="Title" nzSize="large" />
+    <form (submit)="searchMovie()" [formGroup]="searchMovieGroup" class="flex items-center gap-8 mt-8">
+      <input nz-input placeholder="Title" nzSize="large" formControlName="title"/>
       @if (genres$ | async; as genres){
-        <nz-select nzShowSearch nzAllowClear [nzLoading]="genres.isLoading" nzPlaceHolder="Select a Genre">
+        <nz-select nzShowSearch nzAllowClear [nzLoading]="genres.isLoading" nzPlaceHolder="Select a Genre" formControlName="genre">
           @for (genre of genres.data; track $index){
             <nz-option [nzLabel]="genre.name" [nzValue]="genre.id"></nz-option>
-
           }
         </nz-select>
 
       }
-      <button nz-button nzType="primary">Search</button>
-    </div>
+      <button nz-button nzType="primary" type="submit"><nz-icon nzType="search" nzTheme="outline" /> Search</button>
+    </form>
 
+  @if (searchedMovies$ | async; as searchedMovies){
+    @if (searchedMovies.isLoading){
+      <nz-spin nzSimple nzSize="large"></nz-spin>
+    } @else {
+      @if (searchedMovies.data; as movies){
+        <div class="flex flex-col gap-8 mt-8">
+          @for (movie of movies.results; track movie.id){
+            <div class="flex gap-8">
+              <img [src]="movie.poster_path" class="w-32" [alt]="movie.title">
+              <div class="flex flex-col my-2 gap-2">
+                <div class="flex items-center gap-2">
+                  <span>Name: </span>
+                  <span>{{movie.title}}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <app-imdb></app-imdb>
+                  <span>{{movie.vote_average}}</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span>Summary: </span>
+                  <span>{{movie.overview}}</span>
+                </div>
 
+              </div>
+            </div>
+          }
+        </div>
+    }
+  }
+  }
 }

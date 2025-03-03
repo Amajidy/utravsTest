@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {MoviesInfra} from '../infra/movies.infra';
-import {ReplaySubject} from 'rxjs';
+import {combineLatest, map, ReplaySubject, switchMap} from 'rxjs';
 import {BaseInfra} from '../base.class';
 import {Genre, MovieId, Movies} from '../entities/movies.entity';
 
@@ -12,6 +12,11 @@ export class MoviesFacade {
   private _popularMovies$ = new ReplaySubject<BaseInfra<Movies>>(1)
   private _movieId$ = new ReplaySubject<BaseInfra<MovieId>>(1)
   private _genres$ = new ReplaySubject<BaseInfra<Genre[]>>(1)
+  private _searchedMovies$ = new ReplaySubject<BaseInfra<Movies>>(1)
+
+  get searchedMovies$(){
+    return this._searchedMovies$.asObservable()
+  }
 
   get genres$(){
     return this._genres$.asObservable()
@@ -35,5 +40,29 @@ export class MoviesFacade {
 
   getGenres(){
     this._genres$.next(new BaseInfra(this._moviesInfra.getGenre()))
+  }
+
+  searchMovie(title: string = '', genre: number | null){
+    if (title && genre){
+      this.searchMovieByTitleAndGenre(title, genre);
+    } else if (title){
+      this.searchMovieByTitle(title)
+    } else if (genre){
+      this.searchMovieByGenre(genre);
+    }
+  }
+
+  searchMovieByTitleAndGenre(title: string, genre: number){
+    this._searchedMovies$.next(new BaseInfra(this._moviesInfra.searchMovieByTitle(title).pipe(
+      map((movies) => ({...movies,
+        results: movies.results.filter(movie => movie.genre_ids.includes(genre))}))
+    )))
+  }
+
+  searchMovieByTitle(title: string){
+    this._searchedMovies$.next(new BaseInfra(this._moviesInfra.searchMovieByTitle(title)))
+  }
+  searchMovieByGenre(genre: number){
+    this._searchedMovies$.next(new BaseInfra(this._moviesInfra.searchMovieByGenre(genre)))
   }
 }

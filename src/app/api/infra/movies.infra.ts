@@ -33,4 +33,26 @@ export class MoviesInfra{
       map(res => res.genres)
     )
   }
+
+  searchMovieByTitle(title:string){
+    return this._http$.get<Movies>(environment.apiUrl + `/search/movie?query=${title}`).pipe(
+      map(res => ({
+        ...res, results:res.results.map(movies => ({
+          ...movies, poster_path: environment.mediaUrl + movies.poster_path,
+          backdrop_path: environment.mediaUrl + movies.backdrop_path
+        }))
+      }))
+    )
+  }
+
+  searchMovieByGenre(genre:number){
+    return this._http$.get<Movies>(environment.apiUrl + `/discover/movie?with_genres=${genre}`).pipe(
+      map(res => ({
+        ...res, results:res.results.map(movies => ({
+          ...movies, poster_path: environment.mediaUrl + movies.poster_path,
+          backdrop_path: environment.mediaUrl + movies.backdrop_path
+        }))
+      }))
+    )
+  }
 }
