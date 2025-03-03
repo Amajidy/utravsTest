@@ -1,0 +1,21 @@
+@if (popular$ | async; as popular){
+  @if (popular.data; as movies) {
+    <nz-carousel nzAutoPlay nzEffect="scrollx" class="h-lg">
+      @for (movie of movies.results; track $index) {
+        <a routerLink="movie/{{movie.id}}" nz-carousel-content class="h-[750px]">
+          <div class="flex gap-4">
+          <img src="{{('https://image.tmdb.org/t/p/w500' + movie.poster_path)}}" width="" alt="popular">
+            <div class="flex flex-col items-start">
+              <span>{{movie.title}}</span>
+              <div class="flex items-center gap-6">
+                <app-imdb></app-imdb>
+                <span>{{movie.vote_average}}</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      }
+    </nz-carousel>
+
+  }
+}

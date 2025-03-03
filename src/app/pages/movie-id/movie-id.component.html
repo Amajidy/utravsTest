@@ -1,0 +1,43 @@
+@if (movieId$ | async; as movieId) {
+  @if (movieId.isLoading) {
+    <nz-spin nzSimple nzSize="large"></nz-spin>
+  } @else {
+    @if (movieId.data; as movie){
+      <div class="flex flex-col justify-start items-start relative">
+        <div class="flex absolute">
+          <img ngSrc="{{environment.mediaUrl}}{{movie.backdrop_path}}" width="1200" height="580" class="opacity-20" alt="movie"/>
+          <div class="absolute w-full h-full">
+            <div class="absolute w-16 left-0 h-full bg-linear-to-r from-white to-transparent"></div>
+            <div class="absolute w-16 right-0 h-full bg-linear-to-l from-white to-transparent"></div>
+
+          </div>
+        </div>
+        <div class="flex-1 z-10 grid grid-cols-5 p-4">
+          <div class="col-span-2">
+            <img src="{{environment.mediaUrl}}{{movie.poster_path}}" class="w-86" alt="{{movie.title}}"/>
+          </div>
+          <div class="col-span-3 flex flex-col gap-8">
+            <div class="flex items-center justify-between">
+              <h2 class="text-2xl">{{movie.title}}</h2>
+              <span class="p-1 bg-yellow-500 rounded-md cursor-pointer" (click)="toggleWatchList(movie.id)">add to watch list <nz-icon nzType="star" nzTheme="fill" style="font-size: 16px"/>
+              </span>
+            </div>
+            <div class="flex items-center gap-4">
+              <app-imdb></app-imdb>
+              <span class="text-md text-bold">{{movie.vote_average}}</span>
+            </div>
+            <p class="text-bold"><nz-icon nzType="file-text" nzTheme="outline" /> Summary: {{movie.overview}}</p>
+            <p class="text-bold"><nz-icon nzType="field-time" nzTheme="outline" /> Duration: {{movie.runtime}}</p>
+            <div class="flex gap-2 items-center">
+              <span>Genre: </span>
+              @for (genre of movie.genres; track genre.id){
+                <span class="bg-gray-300 p-1 rounded-md text-bold">{{genre.name}}</span>
+              }
+            </div>
+            <p class="text-bold">Released: {{movie.release_date | date}}</p>
+          </div>
+        </div>
+      </div>
+    }
+  }
+}
