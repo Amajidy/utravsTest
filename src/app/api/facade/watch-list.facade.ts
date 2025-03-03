@@ -47,7 +47,7 @@ export class WatchListFacade{
     if (res.data){
       const response = new BaseInfra(this._watchList.removeMovieFromWatchList(res.data.id, id))
       if (!response.hasError){
-        this._messageService.success('Movie removed successfully');
+        this._messageService.success('Movie removed successfully!');
         const watchList = await firstValueFrom(this.watchList$)
         if (watchList.data){
           watchList.data.results = watchList.data.results.filter((movies) => movies.id !== id)
