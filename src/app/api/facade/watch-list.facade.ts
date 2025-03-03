@@ -1,10 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {WatchListInfra} from '../infra/watch-list.infra';
 import {UserFacade} from './user.facade';
-import {firstValueFrom, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, delay, firstValueFrom, ReplaySubject} from 'rxjs';
 import {BaseInfra} from '../base.class';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {WatchList} from '../entities/watchList.entity';
+import { MovieId } from '../entities/movies.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +16,33 @@ export class WatchListFacade{
   private _messageService = inject(NzMessageService)
   private _userConfig$ = this._userFacade.userConfig$
   private _watchList$ = new ReplaySubject<BaseInfra<WatchList>>(1)
+  private _isToggling$ = new BehaviorSubject<boolean>(false)
+  isToggling$ = this._isToggling$.asObservable();
 
   get watchList$(){
     return this._watchList$.asObservable()
   }
 
-  addMovieToWatchList(id: number){
-    firstValueFrom(this._userConfig$).then((res) => {
+
+   toggleToWatchList(movie: MovieId,isInWatchList: boolean){
+    this._isToggling$.next(true)
+    firstValueFrom(this._userConfig$).then(async (res) => {
       if (res.data){
-        const isAdded = new BaseInfra(this._watchList.addMovieFromWatchList(res.data.id, id))
+        const isAdded = new BaseInfra(!isInWatchList ? this._watchList.addMovieFromWatchList(res.data.id, movie.id) : this._watchList.removeMovieFromWatchList(res.data.id, movie.id))
         if (!isAdded.hasError){
-          this._messageService.success('Movie added successfully');
+
+        /**
+         *
+         * when adding or removing a movie from watchlist, it takes a little time
+         * to be added to the backend. So that a simulated delay can solve the backend shortage
+         */
+          setTimeout(() => {
+            this.getWatchList()
+            this._isToggling$.next(false)
+          },2000)
+        this._messageService.success('Operation in progress!. please wait a few seconds');
         } else {
-          this._messageService.error('Movie added failed');
+          this._messageService.error('Failed!');
         }
       }
     })

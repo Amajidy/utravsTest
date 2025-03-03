@@ -19,8 +19,20 @@
           <div class="col-span-3 flex flex-col gap-8">
             <div class="flex items-center justify-between">
               <h2 class="text-2xl">{{movie.title}}</h2>
-              <span class="p-1 bg-yellow-500 rounded-md cursor-pointer" (click)="toggleWatchList(movie.id)">add to watch list <nz-icon nzType="star" nzTheme="fill" style="font-size: 16px"/>
-              </span>
+
+
+              @if(!(watchList$ | async)?.isLoading && !(isToggling$ | async)){
+                @let isInWatchList = (isInWatchList$ | async);
+                <button type="button" [class.in-watch-list]="isInWatchList" class="px-2 py-1 bg-yellow-500 rounded-md cursor-pointer" (click)="toggleWatchList(movie, !!isInWatchList)">
+                  @if(isInWatchList){
+                      Remove from watch list
+                    } @else {
+                      Add to watch list <nz-icon nzType="star" nzTheme="fill" style="font-size: 16px"/>
+                    }
+                </button>
+              } @else {
+                Please wait...
+              }
             </div>
             <div class="flex items-center gap-4">
               <app-imdb></app-imdb>

@@ -8,6 +8,8 @@ import {environment} from '../../../environments/environment';
 import {ImdbComponent} from '../../components/imdb/imdb.component';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {WatchListFacade} from '../../api/facade/watch-list.facade';
+import { combineLatest, distinctUntilChanged, map, tap } from 'rxjs';
+import { MovieId } from '../../api/entities/movies.entity';
 
 @Component({
   selector: 'app-movie-id',
@@ -31,15 +33,25 @@ export class MovieIdComponent implements OnInit {
 
 
 
+  watchList$ = this._watchListFacade.watchList$;
   movieId$ = this._moviesFacade.movieId$
+  isInWatchList$ = combineLatest([this.movieId$, this.watchList$])
+    .pipe(
+      map(([movieId, watchList]) => !!watchList.data?.results?.find(w => w.id === movieId.data?.id)),
+      distinctUntilChanged(),
+    )
+
+  isToggling$ = this._watchListFacade.isToggling$;
+
   ngOnInit() {
     this._router.params.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(params => {
       this._moviesFacade.getMovieById(params['id']);
     })
+    this._watchListFacade.getWatchList()
   }
 
-  toggleWatchList(id: number) {
-    this._watchListFacade.addMovieToWatchList(id)
+  toggleWatchList(movie: MovieId, isInWatchList: boolean) {
+    this._watchListFacade.toggleToWatchList(movie,isInWatchList)
   }
 
   protected readonly environment = environment;
