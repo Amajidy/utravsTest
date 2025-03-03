@@ -1,21 +1,30 @@
 @if (popular$ | async; as popular){
   @if (popular.data; as movies) {
-    <nz-carousel nzAutoPlay nzEffect="scrollx" class="h-lg">
+    <nz-carousel nzEffect="scrollx" nzAutoPlay>
       @for (movie of movies.results; track $index) {
-        <a routerLink="movie/{{movie.id}}" nz-carousel-content class="h-[750px]">
-          <div class="flex gap-4">
-          <img src="{{('https://image.tmdb.org/t/p/w500' + movie.poster_path)}}" width="" alt="popular">
-            <div class="flex flex-col items-start">
-              <span>{{movie.title}}</span>
-              <div class="flex items-center gap-6">
-                <app-imdb></app-imdb>
-                <span>{{movie.vote_average}}</span>
-              </div>
+        <a class="flex flex-col relative"  routerLink="movie/{{movie.id}}" nz-carousel-content>
+          <div class="absolute">
+            <img src="{{(environment.mediaUrl + movie.backdrop_path)}}" class="opacity-50" alt="popular">
+          </div>
+          <div class="flex flex-col gap-8 items-start absolute justify-center w-1/2 h-full to-transparent p-4">
+            <h1 class="text-6xl !text-white text-start">{{movie.title}}</h1>
+            <div class="flex items-center gap-6">
+              <app-imdb></app-imdb>
+              <span class="text-bold text-2xl">{{movie.vote_average}}</span>
             </div>
           </div>
         </a>
       }
     </nz-carousel>
+
+
+<!--    <nz-carousel nzEffect="scrollx">-->
+<!--      @for (movie of movies.results; track $index) {-->
+<!--        <div nz-carousel-content>-->
+<!--          <img src="{{(environment.mediaUrl + movie.poster_path)}}" class="w-72" alt="popular">-->
+<!--        </div>-->
+<!--      }-->
+<!--    </nz-carousel>-->
 
   }
 }
