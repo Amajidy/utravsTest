@@ -5,6 +5,7 @@ import {NzSpinComponent} from 'ng-zorro-antd/spin';
 import {environment} from '../../../environments/environment';
 import {ImdbComponent} from '../../components/imdb/imdb.component';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-watch-list',
@@ -12,7 +13,8 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
     AsyncPipe,
     NzSpinComponent,
     ImdbComponent,
-    NzIconDirective
+    NzIconDirective,
+    RouterLink
   ],
   templateUrl: './watch-list.component.html',
   styleUrl: './watch-list.component.scss'

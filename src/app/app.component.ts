@@ -1,8 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {UserFacade} from './api/facade/user.facade';
 import {AsyncPipe, NgOptimizedImage} from '@angular/common';
 import {environment} from '../environments/environment';
+import {slideInAnimation} from './pages/animation.route';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +12,17 @@ import {environment} from '../environments/environment';
     AsyncPipe,
     NgOptimizedImage,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  animations: [slideInAnimation]
 })
 export class AppComponent implements OnInit {
   private _userFacade = inject(UserFacade);
-  user$ = this._userFacade.userConfig$
+   _router = inject(ActivatedRoute);
+  user$ = this._userFacade.userConfig$;
+  napShot = this._router.snapshot.data
   ngOnInit() {
     // this._userFacade.getUser()
   }

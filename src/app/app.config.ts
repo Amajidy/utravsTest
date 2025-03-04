@@ -7,6 +7,7 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {environment} from '../environments/environment';
 import {UserFacade} from './api/facade/user.facade';
 import {firstValueFrom} from 'rxjs';
+import {provideAnimations} from '@angular/platform-browser/animations';
 
 
 export const appInitializer = provideAppInitializer(() => {
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
   ),
     appInitializer,
     provideAnimationsAsync(),
+    provideAnimations()
   ]
 };
 
