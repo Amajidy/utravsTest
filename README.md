@@ -1,6 +1,6 @@
 # UtravsTest
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8 also with Node version 22.12.0.
 
 # First of all you have to install dependencies
 ```bash
