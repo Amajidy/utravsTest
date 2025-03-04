@@ -22,3 +22,5 @@ Once the server is running, open your browser and navigate to `http://localhost:
 I have tried to do the everything which must be done but just rating feature skipped
 
 Also I looked at this project like my problem for clear it I looked at it as solving one of my project structure to have http calls and also for each http calls I have my own loading and error without define redundant variables
+
+Also this project ui is not Ok with mobile
