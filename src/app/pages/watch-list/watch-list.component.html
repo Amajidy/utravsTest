@@ -21,7 +21,7 @@
                 <span class="text-black">{{list.overview}}</span>
               </div>
               <div class="flex items-center">
-                <span class="p-1 bg-red-400 cursor-pointer rounded-md text-black" (click)="removeWatchList(list.id)">Remove From Watch List <nz-icon nzType="star" nzTheme="fill" style="font-size: 16px"/></span>
+                <span class="p-1 bg-red-400 cursor-pointer rounded-md text-black" (click)="$event.preventDefault(); $event.stopPropagation(); removeWatchList(list.id)">Remove From Watch List <nz-icon nzType="star" nzTheme="fill" style="font-size: 16px"/></span>
               </div>
 
             </div>
